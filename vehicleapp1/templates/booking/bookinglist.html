@@ -1,0 +1,157 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Vehicles-RoadLink</title>
+    <script src="{% static 'material/js/jquery.js' %}"></script>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+<!--     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> -->
+    <link href="{% static 'css/datatables-plugins/dataTables.bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/datatables-responsive/dataTables.responsive.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <style type="text/css">    .welcome{
+        background: #808080;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #3fada8, #808080);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #3fada8, #808080); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    }</style>
+</head>
+<body>
+{% if user.is_authenticated %}
+        {% include 'driver/navbar.html' %}
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col s12">
+                      
+                            {% if failure_message %}
+            <div id="card-alert" class="card red lighten-5">
+                      <div class="card-content red-text">
+                        <p>{{failure_message}}</p>
+                      </div>
+                    </div>
+            {% endif %}
+    
+                                <div class="col s12">
+                      <div class="welcome card-panel z-depth-3">
+                        
+                          <span style="padding-left: 38%;" class="white-text"><font color="black" size="20">Your Bookings</font>
+                      </span>
+                      </div>
+                    </div>
+                          
+                            
+                                <div class="col s12">
+                                  <div style="padding-left: 5%;padding-right: 5%;padding-top: 5%;padding-bottom: 5%;" class="card z-depth-5">
+                                <table id="dataTables-example" class="table table-striped table-bordered table-hover">
+                                  <thead>
+                                    <tr>
+                                    {% if user.is_superuser %}
+                                    <th>Username</th>
+                                      {% endif %}
+                                      <th>Status</th>
+                                      <th>Start Date</th>
+                                      <th>End Date</th>
+                                      <th>Source</th>
+                                      <th>Destination</th>
+                                      <th>Distance</th>
+                                       <th>Duration</th>
+                                      <th>Delete</th>
+                                      {% if user.is_superuser %}
+                                        <th scope="col">Change Status</th>
+                                      {% endif %}
+                                      <th>Map</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in bookings %}
+                                    <tr>
+                                      <!-- <th scope="row"></th> -->
+                                      {% if user.is_superuser %}
+                                        <td>{{item.allottedUser.username}}</td>
+                                      {% endif %}
+                                      
+                                      <td>{{item.status}}</td>
+                                      <td>{{item.startDate}}</td>
+                                      <td>{{item.endDate}}</td>
+                                      <td>{{item.source}}</td>
+                                      <td>{{item.destination}}</td>
+                                      <td>{{item.distance}}</td>
+                                      <td>{{item.duration}}</td>
+                                      <td>
+                                        <a href="/booking/delete/{{item.id}}"><input type="button" value="Delete" name="delete" class="btn btn-primary" id="submit"/></a>
+                                      </td>
+                                      {% if user.is_superuser %}
+                                        {% if item.status == "B" %}
+                                          <td><a href="/booking/changestatus/{{item.id}}"><input type="button" value="Revert" name="Book" class="btn btn-primary" id="submit"/></a></td>
+                                        {% elif item.status == "NB" %}
+                                          <td><a href="/booking/changestatus/{{item.id}}"><input type="button" value="Book" name="Book" class="btn btn-primary" id="submit"/></a></td>
+                                        {% else %}
+                                          <td><input type="button" value="Book" name="Book" class="btn btn-primary" id="submit" disabled/></a></td>
+                                        {% endif %}
+                                      {% endif %}
+                                      <td><a href="#map{{item.id}}" class="btn modal-trigger">Map</a>
+                                        <div id="map{{item.id}}" class="modal">
+                                                <div class="modal-content">
+                                                  <h4>The route</h4>
+                                                  <iframe
+                                                  width="100%"
+                                                  height="350"
+                                                  frameborder="0" style="border:0"
+                                                  src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyBOMPDZcYa9AWzWJf4mTeCj2CTvzu-gMq8&origin={{item.source}}&destination={{item.destination}}&avoid=tolls|highways" allowfullscreen>
+                                                </iframe>
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <a href="#!" class="modal-action modal-close  btn-flat teal">Close</a>
+                                                </div>
+                                              </div>
+                                    </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>
+                      </div>
+        <!-- /#page-content-wrapper -->
+    <!-- /#wrapper -->
+{% else %}
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-3">You are not logged in</h1>
+    </div>
+</div>
+{% endif %}
+    <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'css/datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'css/datatables-plugins/dataTables.bootstrap.min.js' %}"></script>
+    <script src="{% static 'css/datatables-responsive/dataTables.responsive.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <!-- Menu Toggle Script -->
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+            responsive: true
+        });
+    });
+    </script>
+    <script>
+             $(document).ready(function(){
+             $('.modal').modal();
+           });
+           </script>
+</body>
+
+</html>

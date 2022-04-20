@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Report</title>
+
+    <!-- Bootstrap core CSS -->
+    {% include 'material/includes/material_css.html' %}
+    <script src="{% static 'material/js/jquery.js' %}"></script>
+    {% include 'material/includes/material_js.html' %}
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+
+
+</head>
+<style>
+    .welcome{
+        background: #808080;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #3fada8, #808080);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #3fada8, #808080); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    }
+</style>
+<body>
+  {% include 'driver/navbar.html' %}
+    <div id="wrapper">
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+               <div class="row">
+                  <div class="col s12 m6 offset-m4 l8 offset-l2">
+                <div class="card  z-depth-5 blue-grey darken-1">
+                    <div class="col s12">
+                      <div class="welcome card-panel z-depth-3">
+                        
+                          <span style="padding-left: 40%;" class="white-text"><font color="black" size="20">Report</font>
+                      </span>
+                      </div>
+                    </div>
+                    {% if bookinglist %}
+                    <div style="margin-left: 5%;margin-right: 5%;" class="card-body">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <!-- <th scope="col">#</th> -->
+                              <th scope="col">Source</th>
+                              <th scope="col">Destination</th>
+                              <th scope="col">Distance</th>
+                              <th scope="col">Cost</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for i in bookinglist %}
+                            <tr>
+                              <!-- <th scope="row"></th> --> 
+                              <td>{{ i.source }}</td>
+                              <td>{{ i.destination }}</td>
+                              <td>{{ i.distance }}</td>
+                              <td>{{ i.cost }}</td> 
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                        {% else %}
+                        <div style="margin-left: 33%;">
+                          <p> You do not have any valid bookings!<p>
+                          </div>
+                          {% endif %}
+                          <div style="margin-left: 33%;" class="card-action">
+                            <p>Total Distance Travelled : {{ totdistance }}</p>
+                          <p>Total expenditure : {{ totcost }}</p>
+                          <a href="/report/mail"><input type="button" value="Get report as mail" name="Book" class="btn btn-primary" id="submit"/></a>
+                          </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- Menu Toggle Script -->
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+
+</body>
+
+</html>

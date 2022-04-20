@@ -1,0 +1,140 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Add driver</title>
+
+    {% include 'material/includes/material_css.html' %}
+    <script src="{% static 'material/js/jquery.js' %}"></script>
+    {% include 'material/includes/material_js.html' %}
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+</head>
+<style type="text/css">    .welcome{
+        background: #808080;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #3fada8, #808080);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #3fada8, #808080); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    }</style>
+<body>
+{% if user.is_authenticated %}
+
+        {% include 'driver/navbar.html' %}
+        <!-- Sidebar -->
+        <!-- Sidebar -->
+        <!--<div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                       Road Link
+                    </a>
+                </li>
+                <li>
+                    <a href="/account/profile">Dashboard</a>
+                </li>
+                <li>
+                    <a href="/driver">View all drivers</a>
+                </li>
+                <li>
+                    <a href="/driver">Add driver</a>
+                </li>
+                <li>
+                    <a href="/vehicle/vehicles">View your vehicles</a>
+                </li>
+                <li>
+                    <a href="#">View all trips</a>
+                </li>
+                <li>
+                    <a href="/vehicle/addVehicle">Add vehicle</a>
+                </li>
+                <li>
+                    <a href="/repair">Repair</a>
+                </li>
+                <li>
+                    <a href="/repair/issues">Repair List</a>
+                </li>
+                <li>
+                    <a href="#">View report</a>
+                </li>
+                <li>
+                    <form action="/account/logout" method="POST">
+                    {%csrf_token%}
+                    <input type="submit" class="btn btn-primary" value="Logout">
+                </form>
+                </li>
+            </ul>
+        </div>-->
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col s8 offset-s2">
+                            {%if success %}
+                            <div id="card-alert" class="card green lighten-5">
+                      <div class="card-content red-text">
+                        <p>{{success}}</p>
+                      </div>
+                    </div>
+                            {% endif %}
+                        <div class="card">
+                            <div class="col s12">
+                      <div class="welcome card-panel z-depth-3">
+                        
+                          <span style="padding-left: 38%;" class="white-text"><font color="black" size="20">Add Driver</font>
+                      </span>
+                      </div>
+                    </div>
+                            <div class="card-content">
+                            <form action="/driver/addDriver" method="POST">
+                            {% csrf_token %}
+                            {{ form }}
+                            <div class="row">
+                                    <div class="col s4 offset-s4 center">
+                                        <input type="submit" class="btn" value="Add">
+                                    </div>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+{% else %}
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-3">You are not logged in</h1>
+    </div>
+</div>
+{% endif %}
+    <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- Menu Toggle Script -->
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+
+</body>
+
+</html>
